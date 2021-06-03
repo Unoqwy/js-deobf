@@ -1,4 +1,9 @@
-import { LiteralBooleanExpression, VariableDeclarator, WhileStatement, SwitchCase } from "shift-ast";
+import {
+    LiteralBooleanExpression,
+    VariableDeclarator,
+    WhileStatement,
+    SwitchCase,
+} from "shift-ast";
 import { ReverseContext } from "..";
 import { parent_of } from "../../utils";
 
@@ -24,8 +29,7 @@ export function order_switch(ctx: ReverseContext) {
             was_cff = false;
         if (
             while_loop.body.type == "BlockStatement" &&
-            (switch_stmt = while_loop.body.block.statements[0])?.type ==
-                "SwitchStatement" &&
+            (switch_stmt = while_loop.body.block.statements[0])?.type == "SwitchStatement" &&
             switch_stmt.discriminant.type == "ComputedMemberExpression" &&
             switch_stmt.discriminant.object.type == "IdentifierExpression" &&
             switch_stmt.discriminant.expression.type == "UpdateExpression"
@@ -37,13 +41,15 @@ export function order_switch(ctx: ReverseContext) {
 
             const order_screwer_id = switch_stmt.discriminant.object.name;
             const $declarators = $parent(`VariableDeclarator[binding.name='${order_screwer_id}']`);
-            for (const declarator of ($declarators.nodes as VariableDeclarator[])) {
+            for (const declarator of $declarators.nodes as VariableDeclarator[]) {
                 if (
                     declarator.init?.type == "CallExpression" &&
-                    declarator.init.callee.type == "ComputedMemberExpression" &&
+                    ((declarator.init.callee.type == "ComputedMemberExpression" &&
+                        declarator.init.callee.expression.type == "LiteralStringExpression" &&
+                        declarator.init.callee.expression.value == "split") ||
+                        (declarator.init.callee.type == "StaticMemberExpression" &&
+                            declarator.init.callee.property == "split")) &&
                     declarator.init.callee.object.type == "LiteralStringExpression" &&
-                    declarator.init.callee.expression.type == "LiteralStringExpression" &&
-                    declarator.init.callee.expression.value == "split" &&
                     declarator.init.arguments[0]?.type == "LiteralStringExpression"
                 ) {
                     const order_string = declarator.init.callee.object.value;
@@ -66,7 +72,10 @@ export function order_switch(ctx: ReverseContext) {
                     }
                     statements.reverse();
 
-                    if (switch_stmt.discriminant.expression.operand.type == "AssignmentTargetIdentifier") {
+                    if (
+                        switch_stmt.discriminant.expression.operand.type ==
+                        "AssignmentTargetIdentifier"
+                    ) {
                         const counter_id = switch_stmt.discriminant.expression.operand.name;
                         $parent(`VariableDeclarator[binding.name='${counter_id}']`).delete();
                     }
