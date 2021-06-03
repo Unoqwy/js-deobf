@@ -49,61 +49,74 @@ function member_abuse($tree: RefactorQueryAPI) {
         if ($parent.nodes[0].type == "VariableDeclarationStatement") {
             $parent = required_parent_of($tree, $parent.nodes[0]);
         }
-
-        const $map_accessors = $parent("StaticMemberExpression, ComputedMemberExpression");
-        const map_accessor_nodes = $map_accessors.nodes as (StaticMemberExpression|ComputedMemberExpression)[];
-        for (const map_accessor of map_accessor_nodes) {
-            let map_name, member_name;
-            if (map_accessor.object.type == "IdentifierExpression") {
-                map_name = map_accessor.object.name;
-            } else {
-                continue;
-            }
-
-            if (map_accessor.type == "StaticMemberExpression") {
-                member_name = map_accessor.property;
-            } else if (map_accessor.type == "ComputedMemberExpression" && map_accessor.expression.type == "LiteralStringExpression") {
-                member_name = map_accessor.expression.value;
-            } else {
-                continue;
-            }
-
-            const map_value = abuse_maps[map_name]?.members[member_name];
-            if (map_value === undefined) {
-                continue;
-            }
-
-            if (map_value.type == "raw") {
-                const $query = $map_accessors.$(map_accessor);
-                $query.replace(map_value.data);
-            } else if (map_value.type == "function") {
-                const $parent = parent_of($tree, map_accessor);
-                if ($parent?.nodes[0]?.type != "CallExpression") {
-                    continue;
-                }
-
-                const identifiers_remap = map_value.data.body_replacements;
-                const params = $parent.nodes[0].arguments;
-                const refactored_node = refactor_node(map_value.data.template, $replacement_tree => {
-                    const $identifiers = $replacement_tree("IdentifierExpression");
-                    for (const identifier of ($identifiers.nodes as IdentifierExpression[])) {
-                        if (identifier.name in identifiers_remap) {
-                            const identifier_remap = params[identifiers_remap[identifier.name]];
-                            if (!identifier_remap) {
-                                throw new Error("Body replacements do not match the number of function parameters");
-                            }
-                            const $query = $identifiers.$(identifier);
-                            $query.replace(identifier_remap);
-                        }
-                    }
-                });
-
-                $parent.replace(refactored_node);
-            }
-        }
+        member_abuse_handle_references($tree, $parent, abuse_maps);
 
         // shift-refactor already handles deleting the declaration
         to_delete.forEach((node) => $declarations.$(node).delete());
+    }
+}
+
+function member_abuse_handle_references(
+    $tree: RefactorQueryAPI,
+    $parent: RefactorQueryAPI,
+    abuse_maps: { [key: string]: MemberAbuseMap },
+) {
+    const $map_accessors = $parent("StaticMemberExpression, ComputedMemberExpression");
+    const map_accessor_nodes = $map_accessors.nodes as (StaticMemberExpression|ComputedMemberExpression)[];
+    for (const map_accessor of map_accessor_nodes) {
+        let map_name, member_name;
+        if (map_accessor.object.type == "IdentifierExpression") {
+            map_name = map_accessor.object.name;
+        } else {
+            continue;
+        }
+
+        if (map_accessor.type == "StaticMemberExpression") {
+            member_name = map_accessor.property;
+        } else if (map_accessor.type == "ComputedMemberExpression" && map_accessor.expression.type == "LiteralStringExpression") {
+            member_name = map_accessor.expression.value;
+        } else {
+            continue;
+        }
+
+        const map_value = abuse_maps[map_name]?.members[member_name];
+        if (map_value === undefined) {
+            continue;
+        }
+
+        if (map_value.type == "raw") {
+            const $query = $map_accessors.$(map_accessor);
+            $query.replace(map_value.data);
+        } else if (map_value.type == "function") {
+            const $parent = parent_of($tree, map_accessor);
+            if ($parent?.nodes[0]?.type != "CallExpression") {
+                continue;
+            }
+
+            console.log("before", $parent.codegen());
+
+            const identifiers_remap = map_value.data.body_replacements;
+            console.log(identifiers_remap);
+            console.log(map_value.data.template);
+            const params = $parent.nodes[0].arguments;
+            const refactored_node = refactor_node(copy(map_value.data.template), $replacement_tree => {
+                const $identifiers = $replacement_tree("IdentifierExpression");
+                for (const identifier of ($identifiers.nodes as IdentifierExpression[])) {
+                    if (identifier.name in identifiers_remap) {
+                        const identifier_remap = params[identifiers_remap[identifier.name]];
+                        if (!identifier_remap) {
+                            throw new Error("Body replacements do not match the number of function parameters");
+                        }
+                        const $query = $identifiers.$(identifier);
+                        $query.replace(identifier_remap);
+                    }
+                }
+
+                member_abuse_handle_references($replacement_tree, $replacement_tree, abuse_maps);
+            });
+
+            $parent.replace(refactored_node);
+        }
     }
 }
 
