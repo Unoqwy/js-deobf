@@ -1,5 +1,6 @@
 import { RefactorQueryAPI } from "shift-refactor/dist/src/refactor-session-chainable";
 import { VM } from "vm2";
+import { computed_to_static_fn_object } from "./cff/functions";
 
 import { member_abuse } from "./cff/member-abuse";
 import { order_switch } from "./cff/switch";
@@ -27,7 +28,7 @@ const reverse: Reverse = {
     groups: {
         cff: {
             display_name: "Control Flow Flattening",
-            methods: [member_abuse, order_switch],
+            methods: [member_abuse, order_switch, computed_to_static_fn_object],
         },
     },
 };

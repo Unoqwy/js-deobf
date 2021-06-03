@@ -963,6 +963,16 @@ shift-parser@7.0.3, shift-parser@^7.0.0:
     shift-reducer "6.0.0"
     shift-regexp-acceptor "2.0.3"
 
+shift-parser@^7.0.3:
+  version "7.0.3"
+  resolved "https://registry.yarnpkg.com/shift-parser/-/shift-parser-7.0.3.tgz#b2d042d2bfc46a9116b87ce20a28f06a6f30e4e7"
+  integrity sha512-uYX2ORyZfKZrUc4iKKkO9KOhzUSxCrSBk7QK6ZmShId+BOo1gh1IwecVy97ynyOTpmhPWUttjC8BzsnQl65Zew==
+  dependencies:
+    multimap "^1.0.2"
+    shift-ast "6.0.0"
+    shift-reducer "6.0.0"
+    shift-regexp-acceptor "2.0.3"
+
 shift-printer@^1.0.1:
   version "1.0.1"
   resolved "https://registry.npmjs.org/shift-printer/-/shift-printer-1.0.1.tgz"
