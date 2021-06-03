@@ -6,6 +6,7 @@
     "author": "Unoqwy <julien.qwy@gmail.com>",
     "license": "Apache-2.0",
     "dependencies": {
+        "chalk": "^4.1.1",
         "shift-ast": "^6.1.0",
         "shift-refactor": "^2.0.0"
     },

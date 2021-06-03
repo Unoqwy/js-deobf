@@ -1,6 +1,6 @@
 // / Control Flow Flattening
 
-import { required_parent_of, parent_of, refactor_node } from "../utils";
+import { required_parent_of, parent_of, refactor_node } from "../../utils";
 
 import {
     ComputedMemberExpression,
@@ -32,7 +32,7 @@ type MemberAbuseMap = {
     members: { [key: string]: MemberAbuseValue };
 };
 
-function member_abuse($tree: RefactorQueryAPI) {
+export function member_abuse($tree: RefactorQueryAPI) {
     const $declarations = $tree("VariableDeclaration");
     const declaration_nodes = $declarations.nodes as VariableDeclaration[];
     for (const declaration of declaration_nodes) {
@@ -238,7 +238,3 @@ function member_abuse_declarator(
     }
     return undefined;
 }
-
-export default {
-    "member-abuse": member_abuse,
-};
