@@ -30,7 +30,5 @@ for (const group of Object.values(reverse.groups)) {
 
 fs.writeFileSync("output.js", $tree.print(), { encoding: "utf-8" });
 console.log(
-    chalk.green(
-        "File 'output.js' has been written with (hopefully) deobfuscated contents."
-    )
+    chalk.green("File 'output.js' has been written with (hopefully) deobfuscated contents.")
 );

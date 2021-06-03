@@ -38,10 +38,7 @@ export function member_abuse(ctx: ReverseContext) {
         const abuse_maps: { [key: string]: MemberAbuseMap } = {};
         const to_delete = [];
         for (const declarator of declaration.declarators) {
-            const abuse_map = member_abuse_declarator(
-                $declarations,
-                declarator
-            );
+            const abuse_map = member_abuse_declarator($declarations, declarator);
             if (abuse_map) {
                 abuse_maps[abuse_map.name] = abuse_map;
                 if (abuse_map.delete_declarator) {
@@ -66,9 +63,7 @@ function member_abuse_handle_references(
     $parent: RefactorQueryAPI,
     abuse_maps: { [key: string]: MemberAbuseMap }
 ) {
-    const $map_accessors = $parent(
-        "StaticMemberExpression, ComputedMemberExpression"
-    );
+    const $map_accessors = $parent("StaticMemberExpression, ComputedMemberExpression");
     const map_accessor_nodes = $map_accessors.nodes as (
         | StaticMemberExpression
         | ComputedMemberExpression
@@ -111,13 +106,10 @@ function member_abuse_handle_references(
             const refactored_node = refactor_node(
                 copy(map_value.data.template),
                 $replacement_tree => {
-                    const $identifiers = $replacement_tree(
-                        "IdentifierExpression"
-                    );
+                    const $identifiers = $replacement_tree("IdentifierExpression");
                     for (const identifier of $identifiers.nodes as IdentifierExpression[]) {
                         if (identifier.name in identifiers_remap) {
-                            const identifier_remap =
-                                params[identifiers_remap[identifier.name]];
+                            const identifier_remap = params[identifiers_remap[identifier.name]];
                             if (!identifier_remap) {
                                 throw new Error(
                                     "Body replacements do not match the number of function parameters"
@@ -160,9 +152,7 @@ function member_abuse_declarator(
             }
 
             const property_name =
-                map_member.name.type == "StaticPropertyName"
-                    ? map_member.name.value
-                    : undefined;
+                map_member.name.type == "StaticPropertyName" ? map_member.name.value : undefined;
             if (!property_name) {
                 continue;
             }
@@ -211,18 +201,12 @@ function member_abuse_declarator(
                 default:
                     continue it;
             }
-            handled_members.push([
-                property_name,
-                member_value as MemberAbuseValue,
-                map_member,
-            ]);
+            handled_members.push([property_name, member_value as MemberAbuseValue, map_member]);
         }
 
         const delete_declarator = handled_members.length == map_members.length;
         if (!delete_declarator) {
-            handled_members.forEach(([_name, _value, node]) =>
-                $query.$(node).delete()
-            );
+            handled_members.forEach(([_name, _value, node]) => $query.$(node).delete());
         }
 
         const members = handled_members.reduce(
