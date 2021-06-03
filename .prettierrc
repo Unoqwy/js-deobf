@@ -1,6 +1,5 @@
 {
     "tabWidth": 4,
     "trailingComma": "es5",
-    "arrowParens": "avoid",
-    "__modeline__": "/* vim: set ft=json et ts=4 sw=4: */"
+    "arrowParens": "avoid"
 }

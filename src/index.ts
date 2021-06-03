@@ -13,7 +13,7 @@ for (const group of Object.values(reverse.groups)) {
     console.log(chalk.dim(`* ${group.display_name}`));
     for (const fn of group.methods) {
         const prefix = chalk.blue(`[${fn.name}] `);
-        process.stdout.write(prefix + "Attempting to reverse..")
+        process.stdout.write(prefix + "Attempting to reverse..");
         fn($tree);
         process.stdout.cursorTo(0);
         process.stdout.write(prefix + "OK ✓");
@@ -23,6 +23,8 @@ for (const group of Object.values(reverse.groups)) {
 }
 
 fs.writeFileSync("output.js", $tree.print(), { encoding: "utf-8" });
-console.log(chalk.green(
-    "File 'output.js' has been written with (hopefully) deobfuscated contents."
-));
+console.log(
+    chalk.green(
+        "File 'output.js' has been written with (hopefully) deobfuscated contents."
+    )
+);
