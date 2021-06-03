@@ -107,11 +107,7 @@ function member_abuse_handle_references(
                 continue;
             }
 
-            console.log("before", $parent.codegen());
-
             const identifiers_remap = map_value.data.body_replacements;
-            console.log(identifiers_remap);
-            console.log(map_value.data.template);
             const params = $parent.nodes[0].arguments;
             const refactored_node = refactor_node(
                 copy(map_value.data.template),
