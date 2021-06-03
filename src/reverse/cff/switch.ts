@@ -66,11 +66,14 @@ export function order_switch(ctx: ReverseContext) {
                     }
                     statements.reverse();
 
+                    if (switch_stmt.discriminant.expression.operand.type == "AssignmentTargetIdentifier") {
+                        const counter_id = switch_stmt.discriminant.expression.operand.name;
+                        $parent(`VariableDeclarator[binding.name='${counter_id}']`).delete();
+                    }
                     $parent.$(declarator).delete();
-                    $while.delete();
 
-                    const $scope = $parent.$($parent.statements().nodes.slice(-1)[0]);
-                    statements.forEach($scope.append.bind($scope));
+                    statements.forEach($while.append.bind($while));
+                    $while.delete();
 
                     was_cff = true;
                     break;
