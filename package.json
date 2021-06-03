@@ -1,0 +1,21 @@
+{
+  "name": "js-deobf",
+  "version": "0.1.0",
+  "description": "An experimental JavaScript deobfuscator using shift(-refactor)",
+  "main": "src/index.ts",
+  "author": "Unoqwy <julien.qwy@gmail.com>",
+  "license": "Apache-2.0",
+  "dependencies": {
+    "shift-ast": "^6.1.0",
+    "shift-refactor": "^2.0.0"
+  },
+  "devDependencies": {
+    "@types/node": "^15.9.0",
+    "@typescript-eslint/eslint-plugin": "^4.26.0",
+    "@typescript-eslint/parser": "^4.26.0",
+    "eslint": "^7.27.0",
+    "eslint-config-google": "^0.14.0",
+    "ts-node": "^10.0.0",
+    "typescript": "^4.3.2"
+  }
+}
