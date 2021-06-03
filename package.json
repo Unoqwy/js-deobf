@@ -8,7 +8,8 @@
     "dependencies": {
         "chalk": "^4.1.1",
         "shift-ast": "^6.1.0",
-        "shift-refactor": "^2.0.0"
+        "shift-refactor": "^2.0.0",
+        "vm2": "^3.9.3"
     },
     "devDependencies": {
         "@types/node": "^15.9.0",

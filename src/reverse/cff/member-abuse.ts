@@ -12,6 +12,7 @@ import {
 } from "shift-ast";
 import { copy } from "shift-refactor";
 import { RefactorQueryAPI } from "shift-refactor/dist/src/refactor-session-chainable";
+import { ReverseContext } from "..";
 
 type MemberAbuseValue = MemberAbuseValueRaw | MemberAbuseValueFunction;
 
@@ -32,8 +33,8 @@ type MemberAbuseMap = {
     members: { [key: string]: MemberAbuseValue };
 };
 
-export function member_abuse($tree: RefactorQueryAPI) {
-    const $declarations = $tree("VariableDeclaration");
+export function member_abuse(ctx: ReverseContext) {
+    const $declarations = ctx.$tree("VariableDeclaration");
     const declaration_nodes = $declarations.nodes as VariableDeclaration[];
     for (const declaration of declaration_nodes) {
         const abuse_maps: { [key: string]: MemberAbuseMap } = {};
@@ -51,11 +52,11 @@ export function member_abuse($tree: RefactorQueryAPI) {
             }
         }
 
-        let $parent = required_parent_of($tree, declaration);
+        let $parent = required_parent_of(ctx.$tree, declaration);
         if ($parent.nodes[0].type == "VariableDeclarationStatement") {
-            $parent = required_parent_of($tree, $parent.nodes[0]);
+            $parent = required_parent_of(ctx.$tree, $parent.nodes[0]);
         }
-        member_abuse_handle_references($tree, $parent, abuse_maps);
+        member_abuse_handle_references(ctx.$tree, $parent, abuse_maps);
 
         // shift-refactor already handles deleting the declaration
         to_delete.forEach(node => $declarations.$(node).delete());
