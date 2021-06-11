@@ -4,8 +4,8 @@
 
 ## Motivation and goals
 
-Most JavaScript deobfuscator out there use either Regex or basic AST changes.
-When I was looking for a deobfuscator to reverse Control Flow Flattening (from [javascript-obfuscator](https://github.com/javascript-obfuscator/javascript-obfuscator)), I found no tool to do it automatically.
+Most JavaScript deobfuscators out there use either Regex or only make basic AST changes.
+While I was looking for a deobfuscator to reverse Control Flow Flattening (from [javascript-obfuscator](https://github.com/javascript-obfuscator/javascript-obfuscator)), I couldn't find one at all.
 However, I stumbled upon [shift-refactor](https://github.com/jsoverson/shift-refactor/) and decided it would be a good base to make a custom deobfuscator, hence this project.
 
 This deobfuscator does not attempt to reverse everything from javascript-obfuscator but definitely helps making the code more readable.
