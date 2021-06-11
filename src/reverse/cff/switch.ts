@@ -1,9 +1,4 @@
-import {
-    LiteralBooleanExpression,
-    VariableDeclarator,
-    WhileStatement,
-    SwitchCase,
-} from "shift-ast";
+import { LiteralBooleanExpression, VariableDeclarator, WhileStatement, SwitchCase } from "shift-ast";
 import { ReverseContext } from "..";
 import { parentOf, replaceByStatements } from "../../utils";
 
@@ -72,10 +67,7 @@ export function order_switch(ctx: ReverseContext) {
                     }
                     statements.reverse();
 
-                    if (
-                        switch_stmt.discriminant.expression.operand.type ==
-                        "AssignmentTargetIdentifier"
-                    ) {
+                    if (switch_stmt.discriminant.expression.operand.type == "AssignmentTargetIdentifier") {
                         const counter_id = switch_stmt.discriminant.expression.operand.name;
                         $parent(`VariableDeclarator[binding.name='${counter_id}']`).delete();
                     }

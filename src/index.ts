@@ -62,18 +62,11 @@ try {
     if (args.output !== undefined) {
         const output_file = args.output;
         fs.writeFileSync(output_file, deobf_source, { encoding: "utf-8" });
-        console.log(
-            chalk.green(
-                `File '${output_file}' has been written with (hopefully) deobfuscated contents.`
-            )
-        );
+        console.log(chalk.green(`File '${output_file}' has been written with (hopefully) deobfuscated contents.`));
     } else {
         if (show_progress) {
             console.log();
-            console.log(
-                chalk.yellow("Output:"),
-                chalk.dim("(pipe the output (e.g. to cat) to only print output)")
-            );
+            console.log(chalk.yellow("Output:"), chalk.dim("(pipe the output (e.g. to cat) to only print output)"));
         }
         console.log(deobf_source.trimEnd());
     }

@@ -3,9 +3,7 @@ import { ReverseContext } from "..";
 import { parseScript } from "shift-parser";
 
 export function computed_to_static_fn_object(ctx: ReverseContext) {
-    const $exprs = ctx.$tree(
-        "CallExpression > ComputedMemberExpression[expression.type='LiteralStringExpression']"
-    );
+    const $exprs = ctx.$tree("CallExpression > ComputedMemberExpression[expression.type='LiteralStringExpression']");
     for (const expr of $exprs.nodes as ComputedMemberExpression[]) {
         if (expr.expression.type != "LiteralStringExpression") {
             // useless check that makes TSC happy

@@ -64,10 +64,7 @@ function member_abuse_handle_references(
     abuse_maps: { [key: string]: MemberAbuseMap }
 ) {
     const $map_accessors = $parent("StaticMemberExpression, ComputedMemberExpression");
-    const map_accessor_nodes = $map_accessors.nodes as (
-        | StaticMemberExpression
-        | ComputedMemberExpression
-    )[];
+    const map_accessor_nodes = $map_accessors.nodes as (StaticMemberExpression | ComputedMemberExpression)[];
     for (const map_accessor of map_accessor_nodes) {
         let map_name, member_name;
         if (map_accessor.object.type == "IdentifierExpression") {
@@ -103,30 +100,21 @@ function member_abuse_handle_references(
 
             const identifiers_remap = map_value.data.body_replacements;
             const params = $parent.nodes[0].arguments;
-            const refactored_node = refactorNode(
-                copy(map_value.data.template),
-                $replacement_tree => {
-                    const $identifiers = $replacement_tree("IdentifierExpression");
-                    for (const identifier of $identifiers.nodes as IdentifierExpression[]) {
-                        if (identifier.name in identifiers_remap) {
-                            const identifier_remap = params[identifiers_remap[identifier.name]];
-                            if (!identifier_remap) {
-                                throw new Error(
-                                    "Body replacements do not match the number of function parameters"
-                                );
-                            }
-                            const $query = $identifiers.$(identifier);
-                            $query.replace(identifier_remap);
+            const refactored_node = refactorNode(copy(map_value.data.template), $replacement_tree => {
+                const $identifiers = $replacement_tree("IdentifierExpression");
+                for (const identifier of $identifiers.nodes as IdentifierExpression[]) {
+                    if (identifier.name in identifiers_remap) {
+                        const identifier_remap = params[identifiers_remap[identifier.name]];
+                        if (!identifier_remap) {
+                            throw new Error("Body replacements do not match the number of function parameters");
                         }
+                        const $query = $identifiers.$(identifier);
+                        $query.replace(identifier_remap);
                     }
-
-                    member_abuse_handle_references(
-                        $replacement_tree,
-                        $replacement_tree,
-                        abuse_maps
-                    );
                 }
-            );
+
+                member_abuse_handle_references($replacement_tree, $replacement_tree, abuse_maps);
+            });
 
             $parent.replace(refactored_node);
         }
@@ -137,10 +125,7 @@ function member_abuse_declarator(
     $parent: RefactorQueryAPI,
     declarator: VariableDeclarator
 ): MemberAbuseMap | undefined {
-    if (
-        declarator.binding.type == "BindingIdentifier" &&
-        declarator?.init?.type == "ObjectExpression"
-    ) {
+    if (declarator.binding.type == "BindingIdentifier" && declarator?.init?.type == "ObjectExpression") {
         const $query = $parent.$(declarator);
         const map_name = declarator.binding.name;
         const map_members = declarator.init.properties;
@@ -151,8 +136,7 @@ function member_abuse_declarator(
                 continue;
             }
 
-            const property_name =
-                map_member.name.type == "StaticPropertyName" ? map_member.name.value : undefined;
+            const property_name = map_member.name.type == "StaticPropertyName" ? map_member.name.value : undefined;
             if (!property_name) {
                 continue;
             }
@@ -172,10 +156,7 @@ function member_abuse_declarator(
                     break;
                 case "FunctionExpression":
                     const body_statements = property_value.body.statements;
-                    if (
-                        body_statements.length != 1 ||
-                        body_statements[0].type != "ReturnStatement"
-                    ) {
+                    if (body_statements.length != 1 || body_statements[0].type != "ReturnStatement") {
                         continue it;
                     }
 
@@ -209,10 +190,7 @@ function member_abuse_declarator(
             handled_members.forEach(([_name, _value, node]) => $query.$(node).delete());
         }
 
-        const members = handled_members.reduce(
-            (o, [name, value, _node]) => ({ ...o, [name]: value }),
-            {}
-        );
+        const members = handled_members.reduce((o, [name, value, _node]) => ({ ...o, [name]: value }), {});
         return {
             name: map_name,
             delete_declarator,
