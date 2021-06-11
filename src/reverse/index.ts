@@ -1,8 +1,8 @@
 import { RefactorQueryAPI } from "shift-refactor/dist/src/refactor-session-chainable";
 import { VM } from "vm2";
-import { computed_to_static_fn_object } from "./cff/functions";
 
 import { member_abuse } from "./cff/member-abuse";
+import { computer_to_static_members } from "./cff/member-misc";
 import { order_switch } from "./cff/switch";
 import { static_conditions } from "./desolate/static_conditions";
 
@@ -31,7 +31,7 @@ const reverse: Reverse = {
         cff: {
             display_name: "Control Flow Flattening",
             description: "Structure transformations making the code harder to read",
-            methods: [member_abuse, order_switch, computed_to_static_fn_object],
+            methods: [member_abuse, order_switch, computer_to_static_members],
         },
         desolate: {
             display_name: "Desolate",
