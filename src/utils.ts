@@ -2,7 +2,7 @@ import { Module, Node, Statement } from "shift-ast";
 import { refactor } from "shift-refactor";
 import { RefactorQueryAPI } from "shift-refactor/dist/src/refactor-session-chainable";
 
-export function parent_of($tree: RefactorQueryAPI, node: Node): RefactorQueryAPI | null {
+export function parentOf($tree: RefactorQueryAPI, node: Node): RefactorQueryAPI | null {
     const $parents = $tree.$($tree.session.findParents(node));
     if ($parents.nodes.length != 1) {
         return null;
@@ -10,15 +10,15 @@ export function parent_of($tree: RefactorQueryAPI, node: Node): RefactorQueryAPI
     return $parents;
 }
 
-export function required_parent_of($tree: RefactorQueryAPI, node: Node): RefactorQueryAPI {
-    const $parent = parent_of($tree, node);
+export function requiredParentOf($tree: RefactorQueryAPI, node: Node): RefactorQueryAPI {
+    const $parent = parentOf($tree, node);
     if ($parent == null) {
         throw new Error("Expected node to have 1 parent");
     }
     return $parent as RefactorQueryAPI;
 }
 
-export function refactor_node(node: Node, refactor_fn: ($tree: RefactorQueryAPI) => void): Node {
+export function refactorNode(node: Node, refactor_fn: ($tree: RefactorQueryAPI) => void): Node {
     // @ts-ignore it works fine
     const $tree = refactor(new Module({ items: [node], directives: [] }));
     refactor_fn($tree.$(node));
@@ -26,7 +26,7 @@ export function refactor_node(node: Node, refactor_fn: ($tree: RefactorQueryAPI)
     return $tree.nodes[0].items[0];
 }
 
-export function replace_by_statements($tree: RefactorQueryAPI, statements: Statement[]) {
+export function replaceByStatements($tree: RefactorQueryAPI, statements: Statement[]) {
     // TOOD: check surrounding context
     statements.forEach($tree.append.bind($tree));
     $tree.delete();

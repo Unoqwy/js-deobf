@@ -5,7 +5,7 @@ import {
     SwitchCase,
 } from "shift-ast";
 import { ReverseContext } from "..";
-import { parent_of, replace_by_statements } from "../../utils";
+import { parentOf, replaceByStatements } from "../../utils";
 
 export function order_switch(ctx: ReverseContext) {
     const $while_loops = ctx.$tree("WhileStatement");
@@ -34,7 +34,7 @@ export function order_switch(ctx: ReverseContext) {
             switch_stmt.discriminant.object.type == "IdentifierExpression" &&
             switch_stmt.discriminant.expression.type == "UpdateExpression"
         ) {
-            const $parent = parent_of(ctx.$tree, while_loop);
+            const $parent = parentOf(ctx.$tree, while_loop);
             if (!$parent) {
                 continue;
             }
@@ -80,7 +80,7 @@ export function order_switch(ctx: ReverseContext) {
                         $parent(`VariableDeclarator[binding.name='${counter_id}']`).delete();
                     }
                     $parent.$(declarator).delete();
-                    replace_by_statements($while, statements);
+                    replaceByStatements($while, statements);
 
                     was_cff = true;
                     break;

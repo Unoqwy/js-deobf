@@ -1,6 +1,6 @@
 import { IfStatement } from "shift-ast";
 import { ReverseContext } from "..";
-import { replace_by_statements } from "../../utils";
+import { replaceByStatements } from "../../utils";
 
 export function static_conditions(ctx: ReverseContext) {
     const $conditions = ctx.$tree("IfStatement");
@@ -18,7 +18,7 @@ export function static_conditions(ctx: ReverseContext) {
         try {
             const static_bool = ctx.vm.run(`Boolean(${test})`);
             if (static_bool) {
-                replace_by_statements($condition_stmt, statements);
+                replaceByStatements($condition_stmt, statements);
             } else {
                 $condition_stmt.delete();
             }

@@ -1,4 +1,4 @@
-import { required_parent_of, parent_of, refactor_node } from "../../utils";
+import { requiredParentOf, parentOf, refactorNode } from "../../utils";
 
 import {
     ComputedMemberExpression,
@@ -47,9 +47,9 @@ export function member_abuse(ctx: ReverseContext) {
             }
         }
 
-        let $parent = required_parent_of(ctx.$tree, declaration);
+        let $parent = requiredParentOf(ctx.$tree, declaration);
         if ($parent.nodes[0].type == "VariableDeclarationStatement") {
-            $parent = required_parent_of(ctx.$tree, $parent.nodes[0]);
+            $parent = requiredParentOf(ctx.$tree, $parent.nodes[0]);
         }
         member_abuse_handle_references(ctx.$tree, $parent, abuse_maps);
 
@@ -96,14 +96,14 @@ function member_abuse_handle_references(
             const $query = $map_accessors.$(map_accessor);
             $query.replace(map_value.data);
         } else if (map_value.type == "function") {
-            const $parent = parent_of($tree, map_accessor);
+            const $parent = parentOf($tree, map_accessor);
             if ($parent?.nodes[0]?.type != "CallExpression") {
                 continue;
             }
 
             const identifiers_remap = map_value.data.body_replacements;
             const params = $parent.nodes[0].arguments;
-            const refactored_node = refactor_node(
+            const refactored_node = refactorNode(
                 copy(map_value.data.template),
                 $replacement_tree => {
                     const $identifiers = $replacement_tree("IdentifierExpression");
