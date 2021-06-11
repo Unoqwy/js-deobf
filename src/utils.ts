@@ -1,3 +1,6 @@
+/* eslint-disable @typescript-eslint/naming-convention */
+/* functions in this file should be camelCase because they act as an external library would */
+
 import { Module, Node, Statement } from "shift-ast";
 import { refactor } from "shift-refactor";
 import { RefactorQueryAPI } from "shift-refactor/dist/src/refactor-session-chainable";

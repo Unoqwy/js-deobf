@@ -9,9 +9,25 @@
         "sourceType": "module"
     },
     "plugins": ["@typescript-eslint"],
+    "ignorePatterns": ["**/*.d.ts"],
     "rules": {
+        "require-jsdoc": "off",
         "camelcase": "off",
-        "require-jsdoc": "warn",
-        "no-unused-vars": "warn"
+        "@typescript-eslint/naming-convention": [
+            "error",
+            {
+                "selector": "default",
+                "format": ["snake_case"],
+                "leadingUnderscore": "allow"
+            },
+            { "selector": "typeLike", "format": ["PascalCase"] }
+        ],
+        "no-unused-vars": "off",
+        "@typescript-eslint/no-unused-vars": [
+            "error",
+            {
+                "argsIgnorePattern": "^_"
+            }
+        ]
     }
 }
