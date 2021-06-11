@@ -88,6 +88,11 @@
   resolved "https://registry.yarnpkg.com/@tsconfig/node16/-/node16-1.0.1.tgz#a6ca6a9a0ff366af433f42f5f0e124794ff6b8f1"
   integrity sha512-FTgBI767POY/lKNDNbIzgAX6miIDBs6NTCbdlDb8TrWovHsSvaVIZDlTqym29C6UqhzwcJx4CYr+AlrMywA0cA==
 
+"@types/argparse@^2.0.8":
+  version "2.0.8"
+  resolved "https://registry.yarnpkg.com/@types/argparse/-/argparse-2.0.8.tgz#14bebdb0479b610bf11fae8b2d59d6a1a09dc1e5"
+  integrity sha512-H/YVlchGvyHN2LSD3gRueCe8mo5zC0lU505LYqpQL75SMOIIZmtyronj/tETOCUVRzeMp4PHW02BaGWMSuNcxA==
+
 "@types/json-schema@^7.0.7":
   version "7.0.7"
   resolved "https://registry.npmjs.org/@types/json-schema/-/json-schema-7.0.7.tgz"
@@ -233,6 +238,11 @@ argparse@^1.0.7:
   integrity sha512-o5Roy6tNG4SL/FOkCAN6RzjiakZS25RLYFrcMttJqbdd8BWrnA+fGz57iN5Pb06pvBGvl5gQ0B48dJlslXvoTg==
   dependencies:
     sprintf-js "~1.0.2"
+
+argparse@^2.0.1:
+  version "2.0.1"
+  resolved "https://registry.yarnpkg.com/argparse/-/argparse-2.0.1.tgz#246f50f3ca78a3240f6c997e8a9bd1eac49e4b38"
+  integrity sha512-8+9WqebbFzpX9OR+Wa6O29asIogeRMzcGtAINdpMHHyAg10f05aSFVBbcEqGf/PXw1EjAZ+q2/bEBg3DvurK3Q==
 
 array-union@^2.1.0:
   version "2.1.0"
@@ -953,17 +963,7 @@ shift-ast@^6.1.0:
   resolved "https://registry.npmjs.org/shift-ast/-/shift-ast-6.1.0.tgz"
   integrity sha512-Vj4XUIJIFPIh6VcBGJ1hjH/kM88XGer94Pr7Rvxa+idEylDsrwtLw268HoxGo5xReL6T3DdRl/9/Pr1XihZ/8Q==
 
-shift-parser@7.0.3, shift-parser@^7.0.0:
-  version "7.0.3"
-  resolved "https://registry.npmjs.org/shift-parser/-/shift-parser-7.0.3.tgz"
-  integrity sha512-uYX2ORyZfKZrUc4iKKkO9KOhzUSxCrSBk7QK6ZmShId+BOo1gh1IwecVy97ynyOTpmhPWUttjC8BzsnQl65Zew==
-  dependencies:
-    multimap "^1.0.2"
-    shift-ast "6.0.0"
-    shift-reducer "6.0.0"
-    shift-regexp-acceptor "2.0.3"
-
-shift-parser@^7.0.3:
+shift-parser@7.0.3, shift-parser@^7.0.0, shift-parser@^7.0.3:
   version "7.0.3"
   resolved "https://registry.yarnpkg.com/shift-parser/-/shift-parser-7.0.3.tgz#b2d042d2bfc46a9116b87ce20a28f06a6f30e4e7"
   integrity sha512-uYX2ORyZfKZrUc4iKKkO9KOhzUSxCrSBk7QK6ZmShId+BOo1gh1IwecVy97ynyOTpmhPWUttjC8BzsnQl65Zew==
