@@ -13,10 +13,11 @@ jobs:
         prettier_options: "--write **/{*.{ts,json},.*.json}"
         dry: true
   lints:
-    name: Lints
+    name: ESLint
+    runs-on: ubuntu-latest
     steps:
     - uses: actions/checkout@v2
     - name: Install node modules
       run: yarn
     - name: ESLint Check
-      run: eslint . --ext ts
+      run: yarn eslint . --ext ts
