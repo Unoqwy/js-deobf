@@ -1,0 +1,21 @@
+name: Lint
+on: [pull_request, push]
+
+jobs:
+  format:
+    name: Format
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v2
+    - name: Prettier Check
+      uses: creyD/prettier_action@v3.3
+      with:
+        dry: true
+  lints:
+    name: Lints
+    steps:
+    - uses: actions/checkout@v2
+    - name: Install node modules
+      run: yarn
+    - name: ESLint Check
+      run: eslint . --ext ts
