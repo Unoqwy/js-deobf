@@ -4,7 +4,7 @@ import { computed_to_static_fn_object } from "./cff/functions";
 
 import { member_abuse } from "./cff/member-abuse";
 import { order_switch } from "./cff/switch";
-import { static_conditions } from "./misc/static_conditions";
+import { static_conditions } from "./desolate/static_conditions";
 
 interface Reverse {
     groups: { [group: string]: Group };
@@ -12,6 +12,7 @@ interface Reverse {
 
 interface Group {
     display_name: string;
+    description: string;
     methods: ((ctx: ReverseContext) => void)[];
 }
 
@@ -29,11 +30,12 @@ const reverse: Reverse = {
     groups: {
         cff: {
             display_name: "Control Flow Flattening",
+            description: "Structure transformations making the code harder to read",
             methods: [member_abuse, order_switch, computed_to_static_fn_object],
         },
-        misc: {
-            display_name: "Miscellaneous",
-            // TODO: is this the right group for static conditions?
+        desolate: {
+            display_name: "Desolate",
+            description: "Code that is never executed or has static values to increase the indent level",
             methods: [static_conditions],
         },
     },
