@@ -4,6 +4,7 @@ import { computed_to_static_fn_object } from "./cff/functions";
 
 import { member_abuse } from "./cff/member-abuse";
 import { order_switch } from "./cff/switch";
+import { static_conditions } from "./misc/static_conditions";
 
 interface Reverse {
     groups: { [group: string]: Group };
@@ -29,6 +30,11 @@ const reverse: Reverse = {
         cff: {
             display_name: "Control Flow Flattening",
             methods: [member_abuse, order_switch, computed_to_static_fn_object],
+        },
+        misc: {
+            display_name: "Miscellaneous",
+            // TODO: is this the right group for static conditions?
+            methods: [static_conditions],
         },
     },
 };

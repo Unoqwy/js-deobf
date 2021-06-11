@@ -1,4 +1,4 @@
-import { Module, Node } from "shift-ast";
+import { Module, Node, Statement } from "shift-ast";
 import { refactor } from "shift-refactor";
 import { RefactorQueryAPI } from "shift-refactor/dist/src/refactor-session-chainable";
 
@@ -24,4 +24,10 @@ export function refactor_node(node: Node, refactor_fn: ($tree: RefactorQueryAPI)
     refactor_fn($tree.$(node));
     // @ts-ignore and here too
     return $tree.nodes[0].items[0];
+}
+
+export function replace_by_statements($tree: RefactorQueryAPI, statements: Statement[]) {
+    // TOOD: check surrounding context
+    statements.forEach($tree.append.bind($tree));
+    $tree.delete();
 }
