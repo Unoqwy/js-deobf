@@ -27,7 +27,6 @@ export function refactorNode(node: Node, refactor_fn: ($tree: RefactorQueryAPI) 
 }
 
 export function replaceByStatements($tree: RefactorQueryAPI, statements: Statement[]) {
-    // TOOD: check surrounding context
     statements.forEach($tree.append.bind($tree));
     $tree.delete();
 }
