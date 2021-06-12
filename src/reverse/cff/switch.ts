@@ -1,6 +1,6 @@
 import { LiteralBooleanExpression, VariableDeclarator, WhileStatement, SwitchCase } from "shift-ast";
 import { ReverseContext } from "..";
-import { parentOf, replaceByStatements } from "../../utils";
+import { parentOf, replaceByNodes } from "../../utils";
 
 export function order_switch(ctx: ReverseContext) {
     const $while_loops = ctx.$tree("WhileStatement");
@@ -72,7 +72,7 @@ export function order_switch(ctx: ReverseContext) {
                         $parent(`VariableDeclarator[binding.name='${counter_id}']`).delete();
                     }
                     $parent.$(declarator).delete();
-                    replaceByStatements($while, statements);
+                    replaceByNodes($while, statements);
 
                     was_cff = true;
                     break;

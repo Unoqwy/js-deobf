@@ -1,7 +1,7 @@
 /* eslint-disable @typescript-eslint/naming-convention */
 /* functions in this file should be camelCase because they act as an external library would */
 
-import { Module, Node, Statement } from "shift-ast";
+import { Module, Node } from "shift-ast";
 import { refactor } from "shift-refactor";
 import { RefactorQueryAPI } from "shift-refactor/dist/src/refactor-session-chainable";
 
@@ -29,7 +29,7 @@ export function refactorNode(node: Node, refactor_fn: ($tree: RefactorQueryAPI) 
     return $tree.nodes[0].items[0];
 }
 
-export function replaceByStatements($tree: RefactorQueryAPI, statements: Statement[]) {
-    statements.forEach($tree.append.bind($tree));
+export function replaceByNodes($tree: RefactorQueryAPI, nodes: Node[]) {
+    nodes.forEach($tree.append.bind($tree));
     $tree.delete();
 }

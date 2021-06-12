@@ -1,10 +1,11 @@
 import { IfStatement } from "shift-ast";
 import { ReverseContext } from "..";
-import { replaceByStatements } from "../../utils";
+import { replaceByNodes } from "../../utils";
 
 export function static_conditions(ctx: ReverseContext) {
     const $conditions = ctx.$tree("IfStatement");
-    for (const condition_stmt of ($conditions.nodes as IfStatement[]).reverse()) {
+    // reverse allows to go from right to left (and bottom to top), avoiding recursion
+    for (const condition_stmt of $conditions.nodes.reverse() as IfStatement[]) {
         const $condition_stmt = $conditions.$(condition_stmt);
         const test = $condition_stmt.$(condition_stmt.test).codegen();
         try {
@@ -13,7 +14,7 @@ export function static_conditions(ctx: ReverseContext) {
             const statements = statements_scope ? statements_scope.block?.statements ?? [statements_scope] : undefined;
             if (statements) {
                 statements.reverse();
-                replaceByStatements($condition_stmt, statements);
+                replaceByNodes($condition_stmt, statements);
             } else {
                 $condition_stmt.delete();
             }
