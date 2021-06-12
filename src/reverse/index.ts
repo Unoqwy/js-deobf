@@ -1,5 +1,6 @@
 import { RefactorQueryAPI } from "shift-refactor/dist/src/refactor-session-chainable";
 import { VM } from "vm2";
+import { unchain_comma_exprs } from "./cff/comas";
 
 import { member_abuse } from "./cff/member-abuse";
 import { computer_to_static_members } from "./cff/member-misc";
@@ -31,7 +32,7 @@ const reverse: Reverse = {
         cff: {
             display_name: "Control Flow Flattening",
             description: "Structure transformations making the code harder to read",
-            methods: [member_abuse, order_switch, computer_to_static_members],
+            methods: [member_abuse, order_switch, unchain_comma_exprs, computer_to_static_members],
         },
         desolate: {
             display_name: "Desolate",
