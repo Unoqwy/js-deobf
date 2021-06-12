@@ -182,6 +182,8 @@ function member_abuse_declarator(
                 default:
                     continue it;
             }
+
+            // FIXME: may not be an obfuscated object but something actually used
             handled_members.push([property_name, member_value as MemberAbuseValue, map_member]);
         }
 
