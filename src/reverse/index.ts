@@ -1,6 +1,6 @@
 import { RefactorQueryAPI } from "shift-refactor/dist/src/refactor-session-chainable";
 import { VM } from "vm2";
-import { unchain_comma_exprs } from "./cff/comas";
+import { unchain_comma_exprs } from "./cff/commas";
 
 import { member_abuse } from "./cff/member-abuse";
 import { computer_to_static_members } from "./cff/member-misc";
