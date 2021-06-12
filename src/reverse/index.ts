@@ -6,6 +6,7 @@ import { member_abuse } from "./cff/member-abuse";
 import { computer_to_static_members } from "./cff/member-misc";
 import { order_switch } from "./cff/switch";
 import { static_conditions } from "./desolate/static_conditions";
+import { fn_vars_unwrap } from "./transform/vars";
 
 interface Reverse {
     groups: { [group: string]: Group };
@@ -39,6 +40,11 @@ const reverse: Reverse = {
             description: "Code that is never executed or has static values to increase the indent level",
             methods: [static_conditions],
         },
+        transform: {
+            display_name: "Transform",
+            description: "Miscellaneous transformations impacting code readability",
+            methods: [fn_vars_unwrap],
+        }
     },
 };
 export default reverse;
