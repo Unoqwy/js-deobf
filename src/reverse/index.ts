@@ -44,7 +44,7 @@ const reverse: Reverse = {
             display_name: "Transform",
             description: "Miscellaneous transformations impacting code readability",
             methods: [fn_vars_unwrap],
-        }
+        },
     },
 };
 export default reverse;
